@@ -12,6 +12,9 @@ package version managment system : pipenv
 
 # run app
 
-to activate env
+to activate env `pipenv shell`
 
-'pipenv shell'
+
+# Others
+
+if you install package, run `pipenv install somepackage`
