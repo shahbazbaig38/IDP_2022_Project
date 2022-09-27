@@ -22,6 +22,8 @@ Third run command ``
 
 to activate env `pipenv shell`
 
+run app `python app.py`
+
 
 # Others
 
