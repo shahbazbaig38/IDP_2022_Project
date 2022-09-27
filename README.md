@@ -2,12 +2,16 @@
 This repository will be used for IDP project for Group 5
 
 
-# Install guide
-
+# Development Environment
 
 python version 3.7
 
 package version managment system : pipenv
+
+
+# Install guide
+
+pipenv 
 
 
 # run app
