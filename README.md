@@ -15,14 +15,14 @@ First, install Python 3.7 on your machine
 
 Second, install pipenv
 
-Third run command ``
+Third, run  ``
 
 
 # run app
 
-to activate env `pipenv shell`
+1. activate env `pipenv shell`
 
-run app `python app.py`
+2. run app `python app.py`
 
 
 # Others
