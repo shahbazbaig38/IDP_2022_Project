@@ -35,9 +35,9 @@ table_fig = dash_table.DataTable(df.to_dict('records'), [
     page_size=5,
     page_action='custom',
     id='datatable-paging',
-    style={
-        'width': '50%'
-},
+#     style={
+#         'width': '50%'
+# },
 )
 
 table_layout = html.Div(children=[
@@ -55,7 +55,9 @@ table_layout = html.Div(children=[
     dbc.Row([
 
         dbc.Col(table_fig),
-        dbc.Col(table_fig)
+        dbc.Col(table_fig),
+        dbc.Col(table_fig),
+        dbc.Col(table_fig),
 
     ])
 
