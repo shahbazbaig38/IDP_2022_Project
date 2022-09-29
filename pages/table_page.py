@@ -7,7 +7,7 @@ df = pd.read_csv(
 
 
 table_layout = html.Div(children=[
-    html.H1(children='This is a Table from Dash Official Turtorial'),
+    html.H2(children='This is a Table from Dash Official Turtorial'),
 
     html.Div(children='''
         Dash is so cool 

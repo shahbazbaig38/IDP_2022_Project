@@ -10,11 +10,7 @@ img = np.array(Image.open(
 fig = px.imshow(img, color_continuous_scale="gray")
 
 tiff_layout = html.Div(children=[
-    html.H1(children='This is one of the given Tiff Images'),
-
-    html.Div(children='''
-        This is depicted by Dash 
-    '''),
+    html.H2(children='This is one of the given Tiff Images'),
 
     dcc.Graph(
         figure=fig

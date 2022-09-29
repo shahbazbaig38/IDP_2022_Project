@@ -16,7 +16,7 @@ SIDEBAR_STYLE = {
     "bottom": 0,
     "width": "16rem",
     "padding": "2rem 1rem",
-    "background-color": "#f8f9fa",
+    "background-color": "#020f59",
 }
 
 CONTENT_STYLE = {
@@ -25,18 +25,26 @@ CONTENT_STYLE = {
     "padding": "2rem 1rem",
 }
 
+NAVLINK_STILE = {
+    'color': 'white', 'fontSize': 20
+}
+
 sidebar = html.Div(
     [
-        html.H2("HSIDash", className="display-4"),
-        html.Hr(),
+        html.H2("HSIDash", style={'color': 'white', 'fontSize': 40}),
+        # html.Hr(),
         html.P(
-            "Analize and Manage HSI Database", className="lead"
+            "Manage and Analize HSI Database", style={'color': 'white', 'fontSize': 15}
         ),
+        html.Hr(),
         dbc.Nav(
             [
-                dbc.NavLink("Database", href="/", active="exact"),
-                dbc.NavLink("Image", href="/page-1", active="exact"),
-                dbc.NavLink("Analysis", href="/page-2", active="exact"),
+                dbc.NavLink("Database", href="/",
+                            active="exact", style=NAVLINK_STILE),
+                dbc.NavLink("Image", href="/image",
+                            active="exact", style=NAVLINK_STILE),
+                dbc.NavLink("Analysis", href="/analysis",
+                            active="exact", style=NAVLINK_STILE),
             ],
             vertical=True,
             pills=True,
@@ -54,9 +62,9 @@ app.layout = html.Div([dcc.Location(id="url"), sidebar, content])
 def render_page_content(pathname):
     if pathname == "/":
         return table_layout
-    elif pathname == "/page-1":
+    elif pathname == "/image":
         return tiff_layout
-    elif pathname == "/page-2":
+    elif pathname == "/analysis":
         return analysis_layout
     return html.Div(
         [
