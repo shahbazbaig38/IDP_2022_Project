@@ -15,7 +15,7 @@ tiff_layout = html.Div(children=[
     html.Div(children=[
         dcc.Graph(
             figure=fig,
-             style={'width': '100'}),
+             style={'width': '100','color': 'black'}),
         dcc.Graph(
             figure=fig, style={'width': '100'}
         ),
