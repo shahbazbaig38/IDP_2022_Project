@@ -11,9 +11,21 @@ table_layout = html.Div(children=[
 
     html.Div(children='''
         Dash is so cool 
-    ''', style={"margin-bottom": "30px"}),
+    ''', ),
+    
+    html.Hr(),
 
     dash_table.DataTable(df.to_dict('records'), [
-                         {"name": i, "id": i} for i in df.columns])
+                         {"name": i, "id": i} for i in df.columns]),
+
+    html.Hr(),
+
+    dash_table.DataTable(df.to_dict('records'), [
+                         {"name": i, "id": i} for i in df.columns]),
+
+    html.Hr(),
+
+    dash_table.DataTable(df.to_dict('records'), [
+                         {"name": i, "id": i} for i in df.columns]),
 
 ])

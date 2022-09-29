@@ -12,8 +12,17 @@ fig = px.imshow(img, color_continuous_scale="gray")
 tiff_layout = html.Div(children=[
     html.H2(children='This is one of the given Tiff Images'),
 
+    html.Div(children=[
+        dcc.Graph(
+            figure=fig,
+             style={'width': '100'}),
+        dcc.Graph(
+            figure=fig, style={'width': '100'}
+        ),
+    ], className='six columns'
+    ),
     dcc.Graph(
         figure=fig
     ),
 
-])
+], className='row')

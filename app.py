@@ -3,7 +3,7 @@
 
 from dash import Dash, html, dcc, Input, Output
 import dash_bootstrap_components as dbc
-from pages.tiff_page import tiff_layout
+from pages.image_page import tiff_layout
 from pages.analysis_page import analysis_layout
 from pages.table_page import table_layout
 
@@ -36,10 +36,10 @@ sidebar = html.Div(
         html.P(
             "Manage and Analize HSI Database", style={'color': 'white', 'fontSize': 15}
         ),
-        html.Hr(),
+        html.Hr(style={'color': 'white', 'fontSize': 30}),
         dbc.Nav(
             [
-                dbc.NavLink("Database", href="/",
+                dbc.NavLink("Table", href="/",
                             active="exact", style=NAVLINK_STILE),
                 dbc.NavLink("Image", href="/image",
                             active="exact", style=NAVLINK_STILE),
