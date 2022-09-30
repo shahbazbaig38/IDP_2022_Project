@@ -27,4 +27,4 @@ package managment system : pipenv
 
 # Others
 
-if you install other package, run `pipenv install somepackage`
+if you install other package, run `pipenv install somepackage` after `pipenv shell`
