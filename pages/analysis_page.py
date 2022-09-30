@@ -4,6 +4,7 @@ import pandas as pd
 from sklearn.decomposition import PCA
 import dash_bootstrap_components as dbc
 from util.styles import BORDER_STYLE
+from util.components import row
 
 # PCA
 df_iris = px.data.iris()
@@ -49,21 +50,20 @@ analysis_layout = html.Div(children=[
     html.H2(children='Iris Data PCA 3D', style={'color': 'white'}),
 
 
-    dbc.Row(
-        [
-            dbc.Col(dcc.Graph(
-                id='iris-exp-vs-gdp',
-                figure=fig_iris,
-                style=BORDER_STYLE
-            ),),
+    row([
+        dcc.Graph(
+            id='iris-exp-vs-gdp',
+            figure=fig_iris,
+            style=BORDER_STYLE
+        ),
+        dcc.Graph(
+            id='iris-exp-vs-gdp',
+            figure=fig_iris,
+            style=BORDER_STYLE
+        ),
+    ]),
 
-            dbc.Col(dcc.Graph(
-                id='iris-exp-vs-gdp',
-                figure=fig_iris,
-                style=BORDER_STYLE
-            ),)
-        ]
-    ),
+
 
     html.H2(children='''
         Iris Data PCA 2D
@@ -76,11 +76,11 @@ analysis_layout = html.Div(children=[
     ),
 
 
-    html.Div([
-
-        html.H2(children='''
+    html.H2(children='''
             Official Dash example
-        ''', style={'color': 'white','margin-top':30}),
+        ''', style={'color': 'white', 'margin-top': 30}),
+
+    html.Div([
 
         dcc.Graph(
             id='life-exp-vs-gdp',
@@ -88,7 +88,7 @@ analysis_layout = html.Div(children=[
             style=BORDER_STYLE
         ),
 
-    ],style=BORDER_STYLE),
+    ], style=BORDER_STYLE),
 
 
 

@@ -3,7 +3,35 @@ from dash import html, dcc
 import plotly.express as px
 import dash_bootstrap_components as dbc
 import plotly.graph_objects as go
-from util.styles import BORDER_STYLE
+from util.styles import FIGURE_STYLE,border_style
+import pandas as pd
+from util.components import row
+
+def ts_plot():
+    df = pd.read_csv(
+        'https://raw.githubusercontent.com/plotly/datasets/master/finance-charts-apple.csv')
+
+    fig = px.line(df, x='Date', y='AAPL.High',
+                  title='Time Series with Range Slider and Selectors')
+
+    fig.update_xaxes(
+        rangeslider_visible=True,
+        rangeselector=dict(
+            buttons=list([
+                dict(count=1, label="1m", step="month", stepmode="backward"),
+                dict(count=6, label="6m", step="month", stepmode="backward"),
+                dict(count=1, label="YTD", step="year", stepmode="todate"),
+                dict(count=1, label="1y", step="year", stepmode="backward"),
+                dict(step="all")
+            ])
+        )
+    )
+
+    fig.update_layout(FIGURE_STYLE)
+
+    return dcc.Graph(
+        figure=fig,
+    )
 
 
 def bar_chart():
@@ -11,10 +39,8 @@ def bar_chart():
 
     fig = px.bar(wide_df, x="nation", y=[
                  "gold", "silver", "bronze"], title="Wide-Form Input")
-    fig.update_layout({
-        'plot_bgcolor': 'rgba(0, 0, 0, 0)',
-        'paper_bgcolor': 'rgba(0, 0, 0, 0)',
-    })
+
+    fig.update_layout(FIGURE_STYLE)
 
     return dcc.Graph(
         figure=fig,
@@ -33,10 +59,7 @@ def pychart():
 
     fig = go.Figure(data=[go.Pie(labels=labels, values=values, hole=.3)])
 
-    fig.update_layout({
-        'plot_bgcolor': 'rgba(0, 0, 0, 0)',
-        'paper_bgcolor': 'rgba(0, 0, 0, 0)',
-    })
+    fig.update_layout(FIGURE_STYLE)
 
     return dcc.Graph(
         id='iris-exp-vs-gdp',
@@ -55,34 +78,24 @@ def overview_component(number, text):
 
 home_layout = html.Div([
 
+    row([
+        overview_component(838, "Total Patients"),
+        overview_component(345, "Total Dataset Size"),
+        overview_component(8433, "Total Images"),
+        overview_component(936, "Total Table Size")
+    ]),
+
     dbc.Row(
         [
-            dbc.Col(overview_component(838, "Total Patient Number")),
-            dbc.Col(overview_component(345, "Total Dataset Size")),
-            dbc.Col(overview_component(8433, "Total Image Number")),
-            dbc.Col(overview_component(936, "Total Table Size")),
+            html.Div(ts_plot(), style=border_style(50)),
+            html.Div(bar_chart(), style=border_style(40)),
         ]
     ),
 
     dbc.Row(
         [
-            html.Div(pychart(), style={"border": "2px white transparent",
-                                       'margin': 25, 'border-radius': 10, 'background': '#181240',
-                                       'width': '50%'}),
-            html.Div(bar_chart(), style={"border": "2px white transparent",
-                                         'margin': 25, 'border-radius': 10, 'background': '#181240',
-                                         'width': '40%'}),
-        ]
-    ),
-
-    dbc.Row(
-        [
-            html.Div(bar_chart(), style={"border": "2px white transparent",
-                                         'margin': 25, 'border-radius': 10, 'background': '#181240',
-                                         'width': '40%'}),
-            html.Div(pychart(), style={"border": "2px white transparent",
-                                       'margin': 25, 'border-radius': 10, 'background': '#181240',
-                                       'width': '50%'}),
+            html.Div(bar_chart(), style=border_style(40)),
+            html.Div(pychart(), style=border_style(50)),
 
         ]
     ),

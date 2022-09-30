@@ -1,8 +1,11 @@
+from tkinter.tix import ROW
 from dash import Dash, dash_table, html
 import plotly.express as px
 import pandas as pd
 from dash.dependencies import Input, Output
 import dash_bootstrap_components as dbc
+from util.styles import FIGURE_STYLE, border_style
+from util.components import row
 
 df = pd.read_csv(
     'https://raw.githubusercontent.com/plotly/datasets/master/solar.csv')
@@ -25,7 +28,7 @@ table_fig = dash_table.DataTable(df.to_dict('records'), [
     style_data={
         'color': 'white',
         'backgroundColor': 'transparent',
-        'width': '50%'
+        'width': '30%'
 },
     style_header={
         'color': 'white',
@@ -35,30 +38,55 @@ table_fig = dash_table.DataTable(df.to_dict('records'), [
     page_size=5,
     page_action='custom',
     id='datatable-paging',
-#     style={
-#         'width': '50%'
-# },
+    # filter_action='native',
 )
 
-table_layout = html.Div(children=[
-    html.H2(children='This is a Table from Dash Official Turtorial',
-            style={'color': 'white'}),
+# table_fig.update_layout(FIGURE_STYLE)
 
-    # html.Div(children='''
-    #     Dash is so cool
-    # ''', ),
+table_layout = row([
 
-    html.Hr(),
+    # dbc.RadioItems(
+    #     id="radios",
+    #     # className="btn-group",
+    #     inputClassName="btn-check",
+    #     labelClassName="btn btn-outline-primary",
+    #     labelCheckedClassName="active",
+    #     options=[
+    #         {"label": "CREATE", "value": 1},
+    #         {"label": "DELETE", "value": 2},
+    #         {"label": "UPDATE", "value": 3},
+    #         {"label": "SELECT", "value": 4},
+    #     ],
+    #     value=1,
+    #     style={"overflow": "scroll", 'width': 60}
+    # ),
 
-    # table_fig, table_fig, table_fig,
 
-    dbc.Row([
 
-        dbc.Col(table_fig),
-        dbc.Col(table_fig),
-        dbc.Col(table_fig),
-        dbc.Col(table_fig),
+    html.Div([
+        html.H2(children='Manage Table',
+                style={'color': 'white'}),
+
+        html.Hr(),
+
+    row([
+
+        dbc.Button("CREATE", outline=True, color="light", className="me-1"),
+        dbc.Button("DELETE", outline=True, color="light", className="me-1"),
+        dbc.Button("UPDATE", outline=True, color="light", className="me-1"),
+        dbc.Button("SELECT", outline=True, color="light", className="me-1"),
+    ]),        
+
+        html.Hr(),
+
+        dbc.Row([
+
+            dbc.Col(table_fig),
+            dbc.Col(table_fig),
+            dbc.Col(table_fig),
+            dbc.Col(table_fig),
+
+        ])
 
     ])
-
 ])

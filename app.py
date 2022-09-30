@@ -8,6 +8,7 @@ from pages.analysis_page import analysis_layout
 from pages.table_page import table_layout
 from pages.home_page import home_layout
 
+
 app = Dash(__name__, external_stylesheets=[dbc.themes.BOOTSTRAP])
 
 SIDEBAR_STYLE = {
@@ -85,4 +86,4 @@ def render_page_content(pathname):
 
 
 if __name__ == '__main__':
-    app.run_server(debug=False)
+    app.run_server(debug=True)
