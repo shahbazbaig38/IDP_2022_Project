@@ -9,22 +9,22 @@ python version 3.7
 package managment system : pipenv
 
 
-# Install guide
+# Install guide (only first time)
 
-First, install Python 3.7 on your machine
+1. install or confirm Python 3.7 on your machine
 
-Second, install pipenv
+2. run `pip install pipenv` to install pipenv
 
-Third run command ``
+3. run  `pipenv install` to create new environment based on Pipfile
 
 
-# run app
+# run app (everytime)
 
-to activate env `pipenv shell`
+1. run `pipenv shell` to activate env
 
-run app `python app.py`
+2. run `python app.py` to start app
 
 
 # Others
 
-if you install package, run `pipenv install somepackage`
+if you install other package, run `pipenv install somepackage`

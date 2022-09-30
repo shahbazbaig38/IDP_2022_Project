@@ -6,6 +6,9 @@ name = "pypi"
 [packages]
 dash = "*"
 pandas = "*"
+pillow = "*"
+dash-bootstrap-components = "*"
+sklearn = "*"
 
 [dev-packages]
 
