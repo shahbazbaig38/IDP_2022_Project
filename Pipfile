@@ -9,6 +9,11 @@ pandas = "*"
 pillow = "*"
 dash-bootstrap-components = "*"
 sklearn = "*"
+matplotlib = "*"
+tifffile = "*"
+pip = "*"
+install = "*"
+pyyaml = "*"
 
 [dev-packages]
 
