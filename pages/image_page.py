@@ -21,6 +21,7 @@ tiff_data = db.get_tiff()
 mask_data = db.get_mask()
 id = db.get_id()
 
+# main layouts of the View page
 tiff_layout = html.Div(children=[
 
     dbc.Row(
@@ -66,7 +67,7 @@ tiff_layout = html.Div(children=[
 
 ], className='row')
 
-
+# function to test slider works fine
 @app.callback(
     Output('slider-output-container', 'children'),
     [Input('band-slider', 'value'), Input('mask-slider', 'value')])
@@ -75,6 +76,7 @@ def update_output(band_index, mask_index):
     return 'You have selected Band : {} Mask : {}'.format(band_index, mask_index)
 
 
+# function to write figure
 @app.callback(
     Output('band-tiff-fig', 'figure'),
     [Input('band-slider', 'value'), Input('mask-slider', 'value'), Input('is-masked', 'value')])
@@ -83,6 +85,7 @@ def tiff_figure_slide_band(band_index, mask_index, isMask):
     print("Mask : ", mask_index)
     # print(tiff_data[:, :, value].shape)
 
+    # if mask or not
     if isMask == False:
         pltdata = tiff_data[:, :, band_index]
     else:
