@@ -41,14 +41,14 @@ tiff_layout = html.Div(children=[
                         [
                             html.H4(children=f'Select Bands',
                                     style={'color': 'white'}),
-                            dcc.Slider(0, len(tiff_data[0, 0, :]-1), 1,
+                            dcc.Slider(0, len(tiff_data[0, 0, :])-1, 1,
                                        value=0,
                                        id='band-slider'
                                        ),
                             html.Hr(),
                             html.H4(children=f'Select Masks',
                                     style={'color': 'white'}),
-                            dcc.Slider(0, len(mask_data[:, 0, 0]-1), 1,
+                            dcc.Slider(0, len(mask_data[:, 0, 0])-1, 1,
                                        value=0,
                                        id='mask-slider'
                                        ),
