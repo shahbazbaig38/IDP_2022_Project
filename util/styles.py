@@ -1,6 +1,6 @@
 BORDER_STYLE = {"border": "2px white transparent",
                 'margin': 20, 'border-radius': 10, 'background': '#181240',
-                'width': '90%'}
+                'width': '90%','color': 'white'}
 
 
 def border_style(percent):
