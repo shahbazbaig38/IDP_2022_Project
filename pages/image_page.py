@@ -2,63 +2,59 @@
 from ast import Pass
 import io
 from dash import html, dcc, Dash
+from database.database import Database
 import plotly.express as px
 import numpy as np
 import dash_bootstrap_components as dbc
-from util.styles import BORDER_STYLE, border_style
+from util.styles import BORDER_STYLE, border_style, FIGURE_STYLE
 import sqlite3
 from dash import dcc, html, Input, Output
 
 from maindash import app
+import dash_daq
 
 # connect to sqlite
-con = sqlite3.connect("database/hsi_database")
-cur = con.cursor()
+db = Database()
 
-# read dataset
-cur.execute("select id, spim from tiff_table")
-id = cur.fetchone()[0]
-
-cur.execute("select id, spim from tiff_table")
-tiff_data = cur.fetchone()[1]
-
-out = io.BytesIO(tiff_data)
-out.seek(0)
-tiff_data = np.load(out)
-
+# load data
+tiff_data = db.get_tiff()
+mask_data = db.get_mask()
+id = db.get_id()
 
 tiff_layout = html.Div(children=[
-    html.H2(children='View Image Page',
-            style={'color': 'white'}),
 
-    html.Hr(),
-    # dcc.Graph(
-    #     # figure=fig,
-    #     # style=border_style(89),
-    #     id='band-tiff-fig'
-    # ),
     dbc.Row(
         [
 
             dbc.Col(
                 [
                     dcc.Graph(
-                        # figure=fig,
-                        # style=border_style(89),
                         id='band-tiff-fig'
                     ),
-                    html.H4(children=f'Please Select Bands',
+
+                    html.H4(children=f'Select Bands',
                             style={'color': 'white'}),
-                    html.Hr(),
-                    dcc.Slider(0, len(tiff_data[0, 0, :]), 1,
+                    dcc.Slider(0, len(tiff_data[0, 0, :]-1), 1,
                                value=0,
                                id='band-slider'
                                ),
+                    html.Hr(),
+                    html.H4(children=f'Select Masks',
+                            style={'color': 'white'}),
+                    dcc.Slider(0, len(mask_data[:, 0, 0]-1), 1,
+                               value=0,
+                               id='mask-slider'
+                               ),
+                    dash_daq.ToggleSwitch(
+                        vertical=False,
+                        value=False,
+                        id="is-masked"
+                    ),
                 ],),
             dbc.Col(
                 [
-                    html.H2(children='Metadata Here',
-                            style={'color': 'white'}),
+                    # html.H2(children='Metadata',
+                    #         style={'color': 'white'}),
                     html.H4(children=f'Image ID : {id}',
                             style={'color': 'white'}),
                     html.Div(id='slider-output-container',
@@ -73,21 +69,31 @@ tiff_layout = html.Div(children=[
 
 @app.callback(
     Output('slider-output-container', 'children'),
-    Input('band-slider', 'value'))
-def update_output(value):
-    print(value)
-    return 'You have selected Band : {}'.format(value)
+    [Input('band-slider', 'value'), Input('mask-slider', 'value')])
+def update_output(band_index, mask_index):
+    print(band_index)
+    return 'You have selected Band : {} Mask : {}'.format(band_index, mask_index)
 
 
 @app.callback(
     Output('band-tiff-fig', 'figure'),
-    Input('band-slider', 'value'))
-def tiff_figure_slide_band(value):
-    print(value)
-    print(tiff_data[:, :, value].shape)
-    fig = px.imshow(tiff_data[:, :, value], color_continuous_scale="gray")
+    [Input('band-slider', 'value'), Input('mask-slider', 'value'), Input('is-masked', 'value')])
+def tiff_figure_slide_band(band_index, mask_index, isMask):
+    print("Band : ", band_index)
+    print("Mask : ", mask_index)
+    # print(tiff_data[:, :, value].shape)
+
+    if isMask == False:
+        pltdata = tiff_data[:, :, band_index]
+    else:
+        pltdata = tiff_data[:, :, band_index] * mask_data[mask_index]
+
+    fig = px.imshow(pltdata)
+
     fig.update_layout({
         'plot_bgcolor': 'rgba(0, 0, 0, 0)',
         'paper_bgcolor': 'rgba(0, 0, 0, 0)',
     })
+    fig.update_layout(FIGURE_STYLE)
+
     return fig

@@ -3,5 +3,5 @@ data/
 code/
 
 *_db
-*database
+# *database
 */hsi_database
