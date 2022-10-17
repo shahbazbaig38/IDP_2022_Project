@@ -8,8 +8,8 @@ from pages.analysis_page import analysis_layout
 from pages.table_page import table_layout
 from pages.home_page import home_layout
 
-
-app = Dash(__name__, external_stylesheets=[dbc.themes.BOOTSTRAP])
+from maindash import app
+# app = Dash(__name__, external_stylesheets=[dbc.themes.BOOTSTRAP])
 
 SIDEBAR_STYLE = {
     "position": "fixed",
