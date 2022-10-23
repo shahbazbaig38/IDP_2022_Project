@@ -18,6 +18,9 @@ package managment system : pipenv
 3. run  `pipenv install` to create new environment based on Pipfile
 
 
+Also you need download tiff image and locate in `data` folder under this project.
+
+
 # run app (everytime)
 
 1. run `pipenv shell` to activate env
@@ -27,4 +30,18 @@ package managment system : pipenv
 
 # Others
 
-if you install other package, run `pipenv install somepackage`
+if you install other package, run `pipenv install somepackage` after `pipenv shell`
+
+
+
+pip install dash_bootstrap_components
+
+exit()
+
+pip install pipenv
+
+
+## create db
+
+cd database
+python create_databse.py

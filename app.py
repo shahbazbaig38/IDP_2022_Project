@@ -8,8 +8,8 @@ from pages.analysis_page import analysis_layout
 from pages.table_page import table_layout
 from pages.home_page import home_layout
 
-
-app = Dash(__name__, external_stylesheets=[dbc.themes.BOOTSTRAP])
+from maindash import app
+# app = Dash(__name__, external_stylesheets=[dbc.themes.BOOTSTRAP])
 
 SIDEBAR_STYLE = {
     "position": "fixed",
@@ -34,7 +34,7 @@ NAVLINK_STILE = {
 
 sidebar = html.Div(
     [
-        html.H2("HSIDash", style={'color': 'white', 'fontSize': 40}),
+        html.H3("HSIDash", style={'color': 'white', 'fontSize': 40}),
         # html.Hr(),
         html.P(
             "Manage and Analize HSI Database", style={'color': 'white', 'fontSize': 15}
@@ -44,11 +44,11 @@ sidebar = html.Div(
             [
                 dbc.NavLink("Home", href="/home",
                             active="exact", style=NAVLINK_STILE),
+                dbc.NavLink("View", href="/image",
+                            active="exact", style=NAVLINK_STILE),
+                dbc.NavLink("Delete/Modify", href="/",
+                            active="exact", style=NAVLINK_STILE),
 
-                dbc.NavLink("Table", href="/",
-                            active="exact", style=NAVLINK_STILE),
-                dbc.NavLink("Image", href="/image",
-                            active="exact", style=NAVLINK_STILE),
                 dbc.NavLink("Analysis", href="/analysis",
                             active="exact", style=NAVLINK_STILE),
             ],

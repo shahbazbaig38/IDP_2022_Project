@@ -5,6 +5,7 @@ from sklearn.decomposition import PCA
 import dash_bootstrap_components as dbc
 from util.styles import BORDER_STYLE
 from util.components import row
+from util.styles import FIGURE_STYLE,border_style
 
 # PCA
 df_iris = px.data.iris()
@@ -20,18 +21,12 @@ fig_iris = px.scatter_3d(
     labels={'0': 'PC 1', '1': 'PC 2', '2': 'PC 3'}
 )
 
-fig_iris.update_layout({
-    'plot_bgcolor': 'rgba(0, 0, 0, 0)',
-    'paper_bgcolor': 'rgba(0, 0, 0, 0)',
-})
+fig_iris.update_layout(FIGURE_STYLE)
 
 fig_scatter = px.scatter(df_iris, x="sepal_width",
                          y="sepal_length", color="species", symbol="species")
 
-fig_scatter.update_layout({
-    'plot_bgcolor': 'rgba(0, 0, 0, 0)',
-    'paper_bgcolor': 'rgba(0, 0, 0, 0)',
-})
+fig_scatter.update_layout(FIGURE_STYLE)
 
 df = pd.read_csv(
     'https://gist.githubusercontent.com/chriddyp/5d1ea79569ed194d432e56108a04d188/raw/a9f9e8076b837d541398e999dcbac2b2826a81f8/gdp-life-exp-2007.csv')
@@ -40,10 +35,7 @@ fig = px.scatter(df, x="gdp per capita", y="life expectancy",
                  size="population", color="continent", hover_name="country",
                  log_x=True, size_max=60)
 
-fig.update_layout({
-    'plot_bgcolor': 'rgba(0, 0, 0, 0)',
-    'paper_bgcolor': 'rgba(0, 0, 0, 0)',
-})
+fig.update_layout(FIGURE_STYLE)
 
 analysis_layout = html.Div(children=[
 

@@ -57,8 +57,9 @@ def pychart():
     fig = px.pie(df, values='pop', names='country',
                  title='Population of European continent')
 
-    fig = go.Figure(data=[go.Pie(labels=labels, values=values, hole=.3)])
+    fig = go.Figure(data=[go.Pie(labels=labels, values=values, hole=.6)])
 
+    fig.update_layout(template='plotly_dark')
     fig.update_layout(FIGURE_STYLE)
 
     return dcc.Graph(
