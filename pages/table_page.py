@@ -4,8 +4,20 @@ import plotly.express as px
 import pandas as pd
 from dash.dependencies import Input, Output
 import dash_bootstrap_components as dbc
+
+from database.database import Database
 from util.styles import FIGURE_STYLE, border_style
 from util.components import row
+
+# connect to sqlite
+db = Database()
+
+# load data
+tiff_data = db.get_tiff()
+mask_data = db.get_mask()
+rgb_data = db.get_rgb()
+
+id = db.get_id()
 
 df = pd.read_csv(
     'https://raw.githubusercontent.com/plotly/datasets/master/solar.csv')
