@@ -15,6 +15,7 @@ pip = "*"
 install = "*"
 pyyaml = "*"
 dash-daq = "*"
+scikit-image = "*"
 
 [dev-packages]
 

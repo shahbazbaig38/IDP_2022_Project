@@ -42,13 +42,12 @@ sidebar = html.Div(
         html.Hr(style={'color': 'white', 'fontSize': 30}),
         dbc.Nav(
             [
-                dbc.NavLink("Home", href="/home",
+                dbc.NavLink("Home", href="/",
                             active="exact", style=NAVLINK_STILE),
                 dbc.NavLink("View", href="/image",
                             active="exact", style=NAVLINK_STILE),
-                dbc.NavLink("Delete/Modify", href="/",
+                dbc.NavLink("Delete/Modify", href="/table",
                             active="exact", style=NAVLINK_STILE),
-
                 dbc.NavLink("Analysis", href="/analysis",
                             active="exact", style=NAVLINK_STILE),
             ],
@@ -67,9 +66,9 @@ app.layout = html.Div([dcc.Location(id="url"), sidebar, content], style={'backgr
 @app.callback(Output("page-content", "children"), [Input("url", "pathname")])
 def render_page_content(pathname):
     if pathname == "/":
-        return table_layout
-    elif pathname == "/home":
         return home_layout
+    elif pathname == "/table":
+        return table_layout
     elif pathname == "/image":
         return tiff_layout
     elif pathname == "/analysis":
