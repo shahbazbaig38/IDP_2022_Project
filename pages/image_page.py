@@ -1,14 +1,10 @@
 
-from ast import Pass
-import io
-from tkinter.ttk import Style
-from dash import html, dcc, Dash, no_update
+from dash import html, dcc, no_update
 from database.database import Database
 import plotly.express as px
 import numpy as np
 import dash_bootstrap_components as dbc
-from util.styles import BORDER_STYLE, border_style, FIGURE_STYLE, padding_border_style
-import sqlite3
+from util.styles import BORDER_STYLE, FIGURE_STYLE, padding_border_style
 from dash import dcc, html, Input, Output
 from skimage import data, draw
 import scipy
@@ -68,7 +64,7 @@ tiff_layout = html.Div(children=[
                         ['Set 1, lower 10, icg', 'Set 1, lower 10, icg', 'Set 1, lower 10, icg'],
                         placeholder="Filter",style={'width': '50%',}
                     ),
-                ]),
+                ],style={'width': '80%','textAlign': 'center'}),
 
         ],
         style=BORDER_STYLE
@@ -80,21 +76,35 @@ tiff_layout = html.Div(children=[
                 [
                     html.Div(
                         dcc.Graph(
-                        id='band-tiff-fig'
-                    )),
+                        id='band-tiff-fig',
+                        style={'width': '88vh', 'height': '70vh'}
+                    ), style=padding_border_style(0)),
                     
-                    dcc.Graph(
-                        id="graph-histogram", 
-                        figure=fig_hist,
-                        style=FIGURE_STYLE
-                    ),
+                    html.Div(
+                        dcc.Graph(
+                            id="graph-histogram", 
+                            figure=fig_hist,
+                            style=FIGURE_STYLE
+                        )
+                    , style=padding_border_style(10)),
 
-                ], style=padding_border_style(10)
+                ], # style=padding_border_style(10)
             ),
 
             dbc.Col(
                 [
-                    
+                
+                    # html.Div(
+                    #     dcc.Graph(
+                    #         id="graph-histogram", 
+                    #         figure=fig_hist,
+                    #         # showlegend=False,
+                    #         style={'width': '32vh', 'height': '40vh'}
+                    #     )
+                    # , #style=padding_border_style(0)
+                    # ),
+
+
                     dbc.Col([
                         html.Div([
                             
@@ -111,7 +121,7 @@ tiff_layout = html.Div(children=[
                             dash_daq.ToggleSwitch(
                                 labelPosition='bottom',
                                 label='RGB',
-                                value=False,
+                                value=True,
                                 id="is-rgb",
                                 style={'color': 'white'}
                             ),                  
@@ -123,8 +133,10 @@ tiff_layout = html.Div(children=[
                     html.Div(
                         [
                             
+                            
+                            
                             # html.Hr(),
-                            html.H4(children=f'Bands',
+                            html.H6(children=f'Bands',
                                         style={'color': 'white','textAlign': 'center',}),
                             # html.Hr(),  
                             dcc.Slider(
@@ -138,7 +150,7 @@ tiff_layout = html.Div(children=[
                             
                             
                             html.Hr(),
-                            html.H4(children=f'Masks',
+                            html.H6(children=f'Masks',
                                     style={'color': 'white','textAlign': 'center'}),
                             # html.Hr(),  
                             dcc.Slider(
@@ -151,7 +163,7 @@ tiff_layout = html.Div(children=[
                             ),
                             html.Hr(),
 
-                            html.H4(children=f'Brightness',
+                            html.H6(children=f'Brightness',
                                         style={'color': 'white','textAlign': 'center',}),
                             dcc.Slider(
                                 -255, 
@@ -163,7 +175,7 @@ tiff_layout = html.Div(children=[
                             ),
 
                             html.Hr(),  
-                            html.H4(children=f'Contrast',
+                            html.H6(children=f'Contrast',
                                         style={'color': 'white','textAlign': 'center',}),
                             dcc.Slider(
                                 -127, 
@@ -176,9 +188,21 @@ tiff_layout = html.Div(children=[
 
 
                         ], 
-                        style=padding_border_style(40)
+                        style=BORDER_STYLE
 
                     ),
+                    
+                    dbc.Col([
+                        html.Div([
+                            
+                            dbc.Button(
+                                "RESET", id="reset-button", className="me-2", n_clicks=0
+                            ),                  
+                            
+                        ], style={"margin":30,'textAlign':'center'})
+                
+                    ],style=BORDER_STYLE),
+                    
                     dbc.Col([
                         html.Div([
                             
@@ -188,7 +212,7 @@ tiff_layout = html.Div(children=[
                                             style={'color': 'white' }),
                                     html.Hr(),
 
-                                    html.H4(children=f'Image ID : {id}',
+                                    html.H5(children=f'Image ID : {id}',
                                             style={'color': 'white'}),
                                     html.Hr(),
 
@@ -203,11 +227,10 @@ tiff_layout = html.Div(children=[
                     
             ]),
             
-            
         ],
         className='row'
     ),
-], 
+], #style = {'textAlign': 'center'},
 
 className='row')
 
@@ -250,6 +273,7 @@ def tiff_figure_slide_band(band_index, mask_index, isMask, isRGB,brightness,cont
     fig = px.imshow(pltdata)
 
     fig.update_layout(FIGURE_STYLE,dragmode="drawclosedpath")
+    # fig.update_layout(width=600,autosize=False)
 
     return fig
 
@@ -259,8 +283,9 @@ def tiff_figure_slide_band(band_index, mask_index, isMask, isRGB,brightness,cont
 @app.callback(
     Output("graph-histogram", "figure"),
     [Input("band-tiff-fig", "relayoutData"),Input('band-slider', 'value'), 
-    Input('mask-slider', 'value'), Input('is-masked', 'value'), Input('is-rgb', 'value')])
-def tiff_figure_slide_band(relayout_data,band_index, mask_index, isMask, isRGB):
+    Input('mask-slider', 'value'), Input('is-masked', 'value'), Input('is-rgb', 'value'),
+    Input('bright-slider', 'value'), Input('contrast-slider', 'value')])
+def html_figure_tiff_image(relayout_data,band_index, mask_index, isMask, isRGB,brightness,contrast):
 
     if isRGB:
         # if mask or not
@@ -275,12 +300,40 @@ def tiff_figure_slide_band(relayout_data,band_index, mask_index, isMask, isRGB):
             pltdata = tiff_data[:, :, band_index]
         else:
             pltdata = tiff_data[:, :, band_index] * mask_data[mask_index]
+            
+    pltdata = apply_brightness_contrast(pltdata, brightness, contrast)    
+
 
     if relayout_data != None and "shapes" in relayout_data:
         last_shape = relayout_data["shapes"][-1]
         mask = path_to_mask(last_shape["path"], pltdata.shape)
         fig = px.histogram(pltdata[mask])
         fig.update_layout(FIGURE_STYLE)
+        # fig.update_yaxes(visible=False, showticklabels=False)
+        # fig.update_xaxes(visible=False, showticklabels=False)
+        fig.update_traces(showlegend=False)
+
         return fig
     else:
-        return no_update
+        # return no_update
+        fig = px.histogram(pltdata.reshape(-1))
+        fig.update_layout(FIGURE_STYLE)
+        # fig.update_yaxes(visible=False, showticklabels=False)
+        # fig.update_xaxes(visible=False, showticklabels=False)
+        fig.update_traces(showlegend=False)
+
+        return fig
+
+
+# reset button and slidebar 
+
+# reset mask button
+@app.callback(
+    Output('is-masked', 'value'),
+    Output('is-rgb', 'value'),
+    Output('band-slider', 'value'),
+    [Input('reset-button', 'value')])
+def reset_mask_button(reset_button):
+    # print("reset")
+    
+    return False, True, 0 
