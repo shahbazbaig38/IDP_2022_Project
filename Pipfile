@@ -16,6 +16,7 @@ install = "*"
 pyyaml = "*"
 dash-daq = "*"
 scikit-image = "*"
+opencv-python = "*"
 
 [dev-packages]
 
