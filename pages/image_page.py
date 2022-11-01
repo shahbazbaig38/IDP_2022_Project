@@ -311,7 +311,7 @@ def html_figure_tiff_image(relayout_data,band_index, mask_index, isMask, isRGB,b
         fig.update_layout(FIGURE_STYLE)
         # fig.update_yaxes(visible=False, showticklabels=False)
         # fig.update_xaxes(visible=False, showticklabels=False)
-        fig.update_traces(showlegend=False)
+        # fig.update_traces(showlegend=False)
 
         return fig
     else:
@@ -320,7 +320,7 @@ def html_figure_tiff_image(relayout_data,band_index, mask_index, isMask, isRGB,b
         fig.update_layout(FIGURE_STYLE)
         # fig.update_yaxes(visible=False, showticklabels=False)
         # fig.update_xaxes(visible=False, showticklabels=False)
-        fig.update_traces(showlegend=False)
+        # fig.update_traces(showlegend=False)
 
         return fig
 
