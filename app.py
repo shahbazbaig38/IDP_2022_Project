@@ -5,7 +5,7 @@ from dash import Dash, html, dcc, Input, Output
 import dash_bootstrap_components as dbc
 from pages.image_page import tiff_layout
 from pages.analysis_page import analysis_layout
-from pages.table_page import table_layout
+from pages.table_page import delete_modify_layout
 from pages.home_page import home_layout
 
 from maindash import app
@@ -67,7 +67,7 @@ app.layout = html.Div([dcc.Location(id="url"), sidebar, content], style={'backgr
 @app.callback(Output("page-content", "children"), [Input("url", "pathname")])
 def render_page_content(pathname):
     if pathname == "/":
-        return table_layout
+        return delete_modify_layout
     elif pathname == "/home":
         return home_layout
     elif pathname == "/image":
