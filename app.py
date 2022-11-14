@@ -1,5 +1,6 @@
 # Run this app with `python app.py` and
 # visit http://127.0.0.1:8050/ in your web browser.
+from maindash import app
 
 from dash import Dash, html, dcc, Input, Output
 import dash_bootstrap_components as dbc
@@ -8,7 +9,6 @@ from pages.analysis_page import analysis_layout
 from pages.table_page import table_layout
 from pages.home_page import home_layout
 
-from maindash import app
 # app = Dash(__name__, external_stylesheets=[dbc.themes.BOOTSTRAP])
 
 SIDEBAR_STYLE = {
