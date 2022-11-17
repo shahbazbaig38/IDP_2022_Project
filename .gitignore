@@ -2,6 +2,8 @@ data/
 
 code/
 
+*.h5
+
 *_db
 # *database
 */hsi_database

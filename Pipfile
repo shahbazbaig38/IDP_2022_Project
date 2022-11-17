@@ -18,14 +18,16 @@ dash-daq = "*"
 scikit-image = "*"
 opencv-python = "*"
 mysql-connector-python = "*"
-flask-sqlalchemy = "*"
+flask-sqlalchemy = "==2.5.1"
 pymysql = "*"
 mysql = "*"
 h5py = "*"
 sqlalchemy = "*"
 mysqlclient = "*"
+cryptography = "*"
+scikit-learn = "*"
 
 [dev-packages]
 
 [requires]
-python_version = "3.8"
+python_version = "3.7"

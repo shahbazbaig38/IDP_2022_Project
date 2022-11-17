@@ -13,15 +13,15 @@ import dash_daq
 from util.analytical_tool import apply_brightness_contrast
 
 # connect to sqlite
-db = Database()
+database = Database()
 
 # load data
-tiff_data = db.get_tiff()
-mask_data = db.get_mask()
-rgb_data = db.get_rgb()
+# database.get_all_rgb_name()
+tiff_data = database.get_spim_by_id(id=1111)
+mask_data = database.get_mask_by_id(id=3333)
+rgb_data = database.get_rgb_by_id(id=2222)
 
-id = db.get_id()
-
+all_files = database.get_all_rgb_name()
 
 def path_to_indices(path):
     """From SVG path to numpy array of coordinates, each row being a (row, col) point
@@ -57,13 +57,15 @@ tiff_layout = html.Div(children=[
             dbc.Row(
                 [
                     dcc.Dropdown(
-                        ['Set 1, lower 10, icg', 'Set 1, lower 10, icg', 'Set 1, lower 10, icg'],
-                        placeholder="Select Image",style={'width': '50%',}
+                        all_files,
+                        value=all_files[0], 
+                        id='rgb-name-dropdown'
+                        ,style={'width': '70%',}
                     ),
-                    dcc.Dropdown(
-                        ['Set 1, lower 10, icg', 'Set 1, lower 10, icg', 'Set 1, lower 10, icg'],
-                        placeholder="Filter",style={'width': '50%',}
-                    ),
+                    # dcc.Dropdown(
+                    #     all_files,
+                    #     placeholder="Filter",style={'width': '50%',}
+                    # ),
                 ],style={'width': '80%','textAlign': 'center'}),
 
         ],
@@ -250,22 +252,43 @@ def update_output(band_index, mask_index):
     Output('band-tiff-fig', 'figure'),
     [Input('band-slider', 'value'), Input('mask-slider', 'value'), 
     Input('is-masked', 'value'), Input('is-rgb', 'value'),
-    Input('bright-slider', 'value'), Input('contrast-slider', 'value')])
-def tiff_figure_slide_band(band_index, mask_index, isMask, isRGB,brightness,contrast):
+    Input('bright-slider', 'value'), Input('contrast-slider', 'value'),
+    Input('rgb-name-dropdown', 'value')])
+def tiff_figure_slide_band(band_index, mask_index, isMask, isRGB,brightness,contrast, rgb_name_dropdown):
+    
+    print(rgb_name_dropdown)
+    rgb_np_data, spim_np_data, mask_np_data = database.get_all_data_by_rgb_name(rgb_name_dropdown)
     
     if isRGB:
         # if mask or not
         if isMask == False:
-            pltdata = rgb_data
+            pltdata = rgb_np_data
         else:
-            mask_ = mask_data[:,:,:,np.newaxis]
-            pltdata = rgb_data * np.repeat(mask_[mask_index], 3, axis=2)
+            # pltdata = rgb_data
+
+            # print(mask_data.shape)
+            mask_ = mask_np_data[:,:,:,np.newaxis]
+            mask__ = np.repeat(mask_[mask_index], 3, axis=2)
+            print(not np.any(mask__) )
+
+            pltdata = rgb_np_data #* mask__ #* np.stack([mask_data[mask_index]*3], 2)
+
+            # print(mask_)
+            # print(mask_data.shape)
+            # print(np.stack([mask_data[mask_index]*3], 2).shape)
+            # print(np.count_nonzero(np.stack([mask_data[mask_index]*3], 2))==1)
+
+            # pltdata = rgb_data * np.repeat(mask_[mask_index], 3, axis=2)
+            # pltdata = rgb_data #* np.stack([mask_data[mask_index]*3], 2) *rgb_data
+
     else:
         # if mask or not
         if isMask == False:
-            pltdata = tiff_data[:, :, band_index]
+            pltdata = spim_np_data[:, :, band_index]
         else:
-            pltdata = tiff_data[:, :, band_index] * mask_data[mask_index]
+            print(mask_np_data.shape)
+            print(spim_np_data.shape)
+            pltdata = spim_np_data[:, :, band_index] * mask_np_data[mask_index]
             
     # apply_brightness_contrast
     pltdata = apply_brightness_contrast(pltdata, brightness, contrast)    
@@ -284,22 +307,28 @@ def tiff_figure_slide_band(band_index, mask_index, isMask, isRGB,brightness,cont
     Output("graph-histogram", "figure"),
     [Input("band-tiff-fig", "relayoutData"),Input('band-slider', 'value'), 
     Input('mask-slider', 'value'), Input('is-masked', 'value'), Input('is-rgb', 'value'),
-    Input('bright-slider', 'value'), Input('contrast-slider', 'value')])
-def html_figure_tiff_image(relayout_data,band_index, mask_index, isMask, isRGB,brightness,contrast):
+    Input('bright-slider', 'value'), Input('contrast-slider', 'value')],
+    Input('rgb-name-dropdown', 'value'))
+def html_figure_tiff_image(relayout_data,band_index, mask_index, isMask, isRGB,brightness,contrast, rgb_name_dropdown):
+
+    rgb_np_data, spim_np_data, mask_np_data = database.get_all_data_by_rgb_name(rgb_name_dropdown)
+
 
     if isRGB:
         # if mask or not
         if isMask == False:
-            pltdata = rgb_data
+            pltdata = rgb_np_data
         else:
-            mask_ = mask_data[:,:,:,np.newaxis]
-            pltdata = rgb_data * np.repeat(mask_[mask_index], 3, axis=2)
+            mask_ = mask_np_data[:,:,:,np.newaxis]
+            # print(mask_.shape)
+            pltdata = rgb_np_data * np.repeat(mask_[mask_index], 3, axis=2)
     else:
         # if mask or not
         if isMask == False:
-            pltdata = tiff_data[:, :, band_index]
+            pltdata = spim_np_data[:, :, band_index]
         else:
-            pltdata = tiff_data[:, :, band_index] * mask_data[mask_index]
+            
+            pltdata = spim_np_data[:, :, band_index] * mask_np_data[mask_index]
             
     pltdata = apply_brightness_contrast(pltdata, brightness, contrast)    
 

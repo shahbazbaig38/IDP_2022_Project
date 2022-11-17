@@ -11,7 +11,7 @@ from util.styles import BORDER_STYLE, FIGURE_STYLE, padding_border_style,width_s
 
 # connect to sqlite
 db = Database()
-rgb_data = db.get_rgb()
+rgb_data = db.get_rgb_by_id(id=2222)
 fig = px.imshow(rgb_data)
 fig.update_layout(FIGURE_STYLE)
 

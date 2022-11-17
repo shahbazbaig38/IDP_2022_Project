@@ -11,6 +11,8 @@ package managment system : pipenv
 
 # Install guide (only first time)
 
+0. make sure you install  MySQL and Xampp and memorize password
+
 1. install or confirm Python 3.7 on your machine
 
 2. run `pip install pipenv` to install pipenv
@@ -18,14 +20,19 @@ package managment system : pipenv
 3. run  `pipenv install` to create new environment based on Pipfile
 
 
-Also you need download tiff image and locate in `data` folder under this project.
+4. you need download tiff image and locate in `/data` folder under this project.
 
 
-# run app (everytime)
+5. run `pipenv shell` to activate env
 
-1. run `pipenv shell` to activate env
+6. modify data path in `database/convert_hdf5.py`
 
-2. run `python app.py` to start app
+7. run `database/convert_hdf5.py` to generate hdf5 file
+
+8. uncomment # self.insert_data() in `database/database.py` line 48. run insert_data() method to insert data into MySQL database
+
+9. run `python app.py` to start app
+
 
 
 # Others
