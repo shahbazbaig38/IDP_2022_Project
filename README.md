@@ -19,9 +19,7 @@ package managment system : pipenv
 
 3. run  `pipenv install` to create new environment based on Pipfile
 
-
-4. you need download tiff image and locate in `/data` folder under this project.
-
+4. you need download normal & mask tiff file from OneDrive and locate them in `/data` folder under this project.
 
 5. run `pipenv shell` to activate env
 
@@ -29,10 +27,11 @@ package managment system : pipenv
 
 7. run `database/convert_hdf5.py` to generate hdf5 file
 
-8. uncomment # self.insert_data() in `database/database.py` line 48. run insert_data() method to insert data into MySQL database
+8. uncomment # self.insert_data() in `database/database.py` line 48. run insert_data() method to insert data into MySQL database. This is nesssasary only the first time. You can change content to be inserted by editing `database/database.py`.
 
-9. run `python app.py` to start app
+9. make sure you use correct password and user in `maindash.py`
 
+10. run `python app.py` to start app
 
 
 # Others
