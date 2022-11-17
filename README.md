@@ -9,7 +9,7 @@ python version 3.7
 package managment system : pipenv
 
 
-# Install guide (only first time)
+# Install guide
 
 0. make sure you install  MySQL and Xampp and memorize password
 
