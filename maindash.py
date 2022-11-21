@@ -5,7 +5,7 @@ from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
 
 server = Flask(__name__)
-server.config["SQLALCHEMY_DATABASE_URI"] = "mysql+pymysql://root@localhost:3306/hsi"
+server.config["SQLALCHEMY_DATABASE_URI"] = "mysql+pymysql://root@localhost:3306/hsi2"
 server.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
 # server.config['MYSQL_USER'] = 'root'
 # server.config['MYSQL_PASSOWRD'] = 'root1234'
