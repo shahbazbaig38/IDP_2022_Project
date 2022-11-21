@@ -17,8 +17,8 @@ database = Database()
 
 # load data
 # database.get_all_rgb_name()
-tiff_data = database.get_spim_by_id(id=1111)
-mask_data = database.get_mask_by_id(id=3333)
+tiff_data = database.get_spim_by_id(id=4444)
+mask_data = database.get_mask_cubic_by_name(name="Set_1_lower_10_icg")
 rgb_data = database.get_rgb_by_id(id=2222)
 
 all_files = database.get_all_rgb_name()
@@ -271,7 +271,7 @@ def tiff_figure_slide_band(band_index, mask_index, isMask, isRGB,brightness,cont
             mask__ = np.repeat(mask_[mask_index], 3, axis=2)
             print(not np.any(mask__) )
 
-            pltdata = rgb_np_data #* mask__ #* np.stack([mask_data[mask_index]*3], 2)
+            pltdata = rgb_np_data * mask__ #* np.stack([mask_data[mask_index]*3], 2)
 
             # print(mask_)
             # print(mask_data.shape)

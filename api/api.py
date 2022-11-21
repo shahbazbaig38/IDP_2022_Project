@@ -8,30 +8,50 @@ from database.database import Database
 
 database = Database()
 
-
-@server.route('/hello', methods=['GET'])
+@server.route('/hello/', methods=['GET'])
 def test():
-        return "hello"
+        return "hello world"
 
-@server.route('/spims/<int:id>', methods=['GET'])
-def get_spims(id:list(int)):
+@server.route('/api/spims', methods=['GET'])
+def get_spims():
+
+        all_spim = database.get_all_spim()
         
-        numpy_spim = database.get_spim_by_id(id)
-        return numpy_spim
+        res = {"spims" : all_spim}
+        
+        return jsonify(res)
 
-@server.route('/spim/<int:id>', methods=['GET'])
+@server.route('/api/spim/<int:id>', methods=['GET'])
 def get_spim(id:int):
+                
+        masks, spim_cube = database.get_spim_and_mask_by_id(id)
         
-        numpy_spim = database.get_spim_by_id(id)
-        
-        return numpy_spim
+        # get all tissue & class
+        res = {
+                "spim_cube" : spim_cube,
+                "masks" : masks
+        }        
+        return jsonify(res)
 
 
 
-@server.route('/tissueclass', methods=['GET'])
+@server.route('/api/tissueclass', methods=['GET'])
 def get_tissueclass():
-        return {'hello': 'world'}
+        tissueclass = database.get_all_tissue_class()
+        
+        res = {
+                "TissueClass" : tissueclass,
+        }        
+        
+        return jsonify(res)
 
-@server.route('/classfeature', methods=['GET'])
+
+@server.route('/api/classfeature', methods=['GET'])
 def get_classfeature():
-        return {'hello': 'world'}
+        tissueclass = database.get_all_class_feature()
+        
+        res = {
+                "ClassFeature" : tissueclass,
+        }        
+        
+        return jsonify(res)
