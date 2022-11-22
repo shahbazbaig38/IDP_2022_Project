@@ -89,7 +89,33 @@ tiff_layout = html.Div(children=[
                             style=FIGURE_STYLE
                         )
                     , style=padding_border_style(10)),
-
+                    
+                    # html.Div(
+                    #     dcc.Graph(
+                    #         id="graph-pca", 
+                    #         # figure=None,
+                    #         style={'width': '70vh', 'height': '70vh'}
+                    #     )
+                    # , style=padding_border_style(10)),
+                    
+                    # html.Div(
+                    #     dcc.Graph(
+                    #         id="graph-pca-histogram", 
+                    #         # figure=None,
+                    #         style=FIGURE_STYLE
+                    #     )
+                    # , style=padding_border_style(10)),
+                    
+                    
+                    # html.Div(
+                    #     dcc.Graph(
+                    #         id="graph-kmeans", 
+                    #         # figure=None,
+                    #         style=FIGURE_STYLE
+                    #     )
+                    # , style=padding_border_style(10)),
+                    
+                    
                 ], # style=padding_border_style(10)
             ),
 
@@ -134,7 +160,6 @@ tiff_layout = html.Div(children=[
                     
                     html.Div(
                         [
-                            
                             
                             
                             # html.Hr(),
@@ -225,7 +250,47 @@ tiff_layout = html.Div(children=[
                             
                         ], style={"margin":30})
                 
-                    ],style=BORDER_STYLE)
+                    ],style=BORDER_STYLE),
+                    
+                    
+                    # dbc.Col([
+                    #     html.Div([
+                    #         html.H6(children=f'PCA Band',
+                    #                     style={'color': 'white','textAlign': 'center',}),
+
+                    #         dcc.Slider(
+                    #             0, 
+                    #             len(tiff_data[0, 0, :])-1, 1,
+                    #             value=0,
+                    #             id='pca-slider',
+                    #             marks=None,
+                    #             tooltip={"placement": "bottom", "always_visible": True}
+                    #         ),
+
+                    #         html.Hr(),                 
+                            
+                    #     ], style={"margin":30,'textAlign':'center'})
+                
+                    # ],style=BORDER_STYLE),
+                    
+                    # dbc.Col([
+                    #     html.Div([
+                    #         html.H6(children=f'Clusters',
+                    #                     style={'color': 'white','textAlign': 'center',}),
+
+                    #         dcc.Slider(
+                    #             2, 5, 1,
+                    #             value=2,
+                    #             id='cluster-slider',
+                    #             marks=None,
+                    #             tooltip={"placement": "bottom", "always_visible": True}
+                    #         ),
+
+                    #         html.Hr(),                 
+                            
+                    #     ], style={"margin":30,'textAlign':'center'})
+                
+                    # ],style=BORDER_STYLE),
                     
             ]),
             
@@ -297,6 +362,7 @@ def tiff_figure_slide_band(band_index, mask_index, isMask, isRGB,brightness,cont
 
     fig.update_layout(FIGURE_STYLE,dragmode="drawclosedpath")
     # fig.update_layout(width=600,autosize=False)
+    # fig.update_layout(title={'text': '<b>Image</b>'}, title_x=0.5)
 
     return fig
 
@@ -338,18 +404,14 @@ def html_figure_tiff_image(relayout_data,band_index, mask_index, isMask, isRGB,b
         mask = path_to_mask(last_shape["path"], pltdata.shape)
         fig = px.histogram(pltdata[mask])
         fig.update_layout(FIGURE_STYLE)
-        # fig.update_yaxes(visible=False, showticklabels=False)
-        # fig.update_xaxes(visible=False, showticklabels=False)
-        # fig.update_traces(showlegend=False)
+        fig.update_layout(title={'text': '<b>Histgram</b>'}, title_x=0.5)
 
         return fig
     else:
         # return no_update
         fig = px.histogram(pltdata.reshape(-1))
         fig.update_layout(FIGURE_STYLE)
-        # fig.update_yaxes(visible=False, showticklabels=False)
-        # fig.update_xaxes(visible=False, showticklabels=False)
-        # fig.update_traces(showlegend=False)
+        fig.update_layout(title={'text': '<b>Histgram</b>'}, title_x=0.5)
 
         return fig
 
@@ -366,3 +428,122 @@ def reset_mask_button(reset_button):
     # print("reset")
     
     return False, True, 0 
+
+
+
+# @app.callback(
+#     Output("graph-pca", "figure"),
+#     [Input('rgb-name-dropdown', 'value'),Input('pca-slider', 'value')])
+# def figure_pca(rgb_name_dropdown,pca_slider):
+    
+#     from sklearn.decomposition import PCA
+    
+#     rgb_np_data, spim_np_data, mask_np_data = database.get_all_data_by_rgb_name(rgb_name_dropdown)
+
+#     # PCA implementatio    
+#     original_size = spim_np_data.shape[0]
+    
+#     spim_np_data = spim_np_data.reshape(-1,spim_np_data.shape[-1])
+#     # print(spim_np_data.shape)
+#     n_components = spim_np_data.shape[-1]
+        
+#     pca = PCA(n_components=n_components)
+    
+#     pca_result = pca.fit_transform(spim_np_data)
+#     print("finish PCA!")
+    
+#     # print(pca_result.shape)
+#     pca_result = pca_result[:,np.newaxis,:]
+#     pca_result = pca_result.reshape(original_size,-1,n_components)
+#     print(pca_result.shape)
+    
+
+#     fig = px.imshow(pca_result[:,:,pca_slider])
+
+#     fig.update_layout(FIGURE_STYLE)
+#     fig.update_layout(title={'text': '<b>Principal Component Analysis</b>'}, title_x=0.5)
+
+#     return fig
+    
+    
+    
+# @app.callback(
+#     Output("graph-pca-histogram", "figure"),
+#     [Input('rgb-name-dropdown', 'value'),Input('pca-slider', 'value')])
+# def figure_pca(rgb_name_dropdown,pca_slider):
+    
+#     from sklearn.decomposition import PCA
+    
+#     rgb_np_data, spim_np_data, mask_np_data = database.get_all_data_by_rgb_name(rgb_name_dropdown)
+
+#     # PCA implementatio    
+#     original_size = spim_np_data.shape[0]
+    
+#     spim_np_data = spim_np_data.reshape(-1,spim_np_data.shape[-1])
+#     # print(spim_np_data.shape)
+#     n_components = spim_np_data.shape[-1]
+        
+#     pca = PCA(n_components=n_components)
+    
+#     pca_result = pca.fit_transform(spim_np_data)
+#     # print("finish PCA!")
+    
+#     # print(pca_result.shape)
+#     pca_result = pca_result[:,np.newaxis,:]
+#     pca_result = pca_result.reshape(original_size,-1,n_components)
+#     # print(pca_result.shape)
+    
+
+#     fig = px.histogram(pca_result[:,:,pca_slider].reshape(-1))
+
+#     fig.update_layout(FIGURE_STYLE)
+#     fig.update_layout(title={'text': '<b>Principal Component Analysis - Histgram</b>'}, title_x=0.5)
+
+#     return fig
+
+
+# @app.callback(
+#     Output("graph-kmeans", "figure"),
+#     [Input('rgb-name-dropdown', 'value'),Input('cluster-slider', 'value')])
+# def figure_pca(rgb_name_dropdown,cluster_slider):
+    
+#     from sklearn.cluster import KMeans
+#     import pandas as pd
+    
+#     rgb_np_data, spim_np_data, mask_np_data = database.get_all_data_by_rgb_name(rgb_name_dropdown)
+
+#     # PCA implementatio
+#     original_size = spim_np_data.shape[0]
+    
+#     spim_np_data = spim_np_data.reshape(-1,spim_np_data.shape[-1])
+    
+#     n_components = spim_np_data.shape[-1]
+
+#     # print(spim_np_data.shape)
+#     kmeans = KMeans(n_clusters=cluster_slider, random_state=0).fit(spim_np_data.T)
+#     print("finish KMeans!")
+    
+#     print("kmeans.shape : ",kmeans.labels_.shape)
+#     # print("df.shape : ",df.shape)
+    
+#     from sklearn.decomposition import PCA
+    
+#     pca = PCA(n_components=3)
+#     print("PCA calc...")
+#     pca_result = pca.fit_transform(spim_np_data.T)
+
+#     print("pca_result.shape : ",pca_result.shape)
+    
+#     df = pd.DataFrame(pca_result, columns=["PC1","PC2","PC3"])
+    
+#     df['cluster_group'] = kmeans.labels_
+    
+#     print("df.shape : ",df.shape)
+    
+    
+#     fig = px.scatter_3d(df,x='PC1', y='PC2', z='PC3', color='cluster_group')
+
+#     fig.update_layout(FIGURE_STYLE)
+#     fig.update_layout(title={'text': '<b>K-Means and PCA</b>'}, title_x=0.5)
+
+#     return fig
