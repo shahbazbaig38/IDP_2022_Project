@@ -22,8 +22,12 @@ fig = px.imshow(rgb_data)
 fig.update_layout(FIGURE_STYLE)
 image = dcc.Graph(figure=fig,
                   style={'width': '40vh', 'height': '40vh'})
-imageLabel = html.H5(children=f'Image ID : {id}',
-                                style={'color': 'white', 'margin-left': 90})
+imageButton = html.Button(id='btn', children=f'Image ID : {id}',
+                                style={'margin-left': 100, 'width': 150})
+
+imageLabel = html.H5(f'Image ID : {id}',
+                                style={'margin-left': 100, 'color': 'white'})
+
 df = pd.read_csv(
     'https://raw.githubusercontent.com/plotly/datasets/master/solar.csv')
 
@@ -36,6 +40,8 @@ delete_modify_layout = html.Div(children=[
                 dbc.Row([
                     image,
                     image,
+                    imageButton,
+                    imageButton
                 ]) for i in range(5)
                 ], style={"border": "2px white transparent",
                       'margin': 10, 'border-radius': 10, 'background': '#181240',
@@ -52,19 +58,19 @@ delete_modify_layout = html.Div(children=[
                             style={'color': 'white', 'margin-left': 90, 'margin-bottom': 10 }),
                     html.H6(children=f'Image ID : {id}',
                             style={'color': 'white', 'margin-left': 90, 'margin-bottom': 10}),
-                    dcc.Input(id="input1", type="text", placeholder="", style={'margin-left': 90, 'margin-bottom': 10}),
-                    html.Button('Update', style={'margin-left': 20}),
+                    dcc.Input(id="inputImageId", type="text", value='', style={'margin-left': 90, 'margin-bottom': 10}),
+                    html.Button('Update', id='btnUpdateImageId', style={'margin-left': 20}),
                     html.H6(children=f'Patient ID : {id}',
                             style={'color': 'white', 'margin-left': 90, 'margin-bottom': 10 }),
-                    dcc.Input(id="input1", type="text", placeholder="", style={'margin-left': 90, 'margin-bottom': 10}),
-                    html.Button('Update', style={'margin-left': 20}),
+                    dcc.Input(id="inputPatientId", type="text", placeholder="", style={'margin-left': 90, 'margin-bottom': 10}),
+                    html.Button('Update', id='btnUpdatePatientId', style={'margin-left': 20}),
                     html.Br(),
                     html.Br(),
-                    html.Button('Delete', style={'margin-left': 90, 'margin-bottom': 10})
+                    html.Button('Delete', id='btnDelete', style={'margin-left': 90, 'margin-bottom': 10})
                 ], style={"border": "2px white transparent",
                           'margin': 10, 'border-radius': 10, 'background': '#181240',
                           'width': 3}, align='top'),
-        ], # align='center'
+        ],
     ),
 
 ], className='row')
