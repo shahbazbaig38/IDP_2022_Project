@@ -11,7 +11,7 @@ package managment system : pipenv
 
 # Install guide (only first time)
 
-1. clone IDP_2022_Project to your machine
+1. clone **IDP_2022_Project** to your machine
 
 2. install or confirm Python 3.7 on your machine
 
