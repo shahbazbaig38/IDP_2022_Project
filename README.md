@@ -11,7 +11,7 @@ package managment system : pipenv
 
 # Install guide
 
-- clone this repository
+- clone this repository go main branch
 
 - make sure you install  MySQL and Xampp and memorize password. And run MySQL. you can check running MySQL from this url  `http://localhost/phpmyadmin/index.php`
 
