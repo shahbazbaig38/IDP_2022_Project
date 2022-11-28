@@ -34,7 +34,7 @@ Also you need download tiff image and locate in `database` folder under this pro
 
 if you install other package, run `pipenv install somepackage` after `pipenv shell`
 
-'pip install dash_bootstrap_components'
+`pip install dash_bootstrap_components`
 
 exit()
 
