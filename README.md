@@ -11,11 +11,13 @@ package managment system : pipenv
 
 # Install guide (only first time)
 
-1. install or confirm Python 3.7 on your machine
+1. clone IDP_2022_Project to your machine
 
-2. run `pip install pipenv` to install pipenv
+2. install or confirm Python 3.7 on your machine
 
-3. run  `pipenv install` to create new environment based on Pipfile
+3. run `pip install pipenv` to install pipenv
+
+4. run  `pipenv install` to create new environment based on Pipfile
 
 
 Also you need download tiff image and locate in `database` folder under this project.
@@ -34,7 +36,7 @@ if you install other package, run `pipenv install somepackage` after `pipenv she
 
 
 
-pip install dash_bootstrap_components
+'pip install dash_bootstrap_components'
 
 exit()
 
