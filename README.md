@@ -23,7 +23,7 @@ package managment system : pipenv
 Also you need download tiff image and locate in `database` folder under this project.
 
 
-# run app (everytime)
+# Run app (everytime)
 
 1. run `pipenv shell` to activate env
 
@@ -33,8 +33,6 @@ Also you need download tiff image and locate in `database` folder under this pro
 # Others
 
 if you install other package, run `pipenv install somepackage` after `pipenv shell`
-
-
 
 'pip install dash_bootstrap_components'
 
