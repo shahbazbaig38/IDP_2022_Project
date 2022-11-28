@@ -18,7 +18,7 @@ package managment system : pipenv
 3. run  `pipenv install` to create new environment based on Pipfile
 
 
-Also you need download tiff image and locate in `data` folder under this project.
+Also you need download tiff image and locate in `database` folder under this project.
 
 
 # run app (everytime)
