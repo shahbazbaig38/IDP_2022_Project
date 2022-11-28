@@ -55,3 +55,16 @@ def get_classfeature():
         }        
         
         return jsonify(res)
+
+
+
+@server.route('/api/annotation', methods=['POST'])
+def save_annotation():
+        
+        data = request.json
+        params = data['params']
+        arr = np.array(data['arr'])
+        
+        # save data as hdf5 and save database
+        
+        pass

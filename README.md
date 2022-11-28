@@ -11,7 +11,9 @@ package managment system : pipenv
 
 # Install guide
 
-0. make sure you install  MySQL and Xampp and memorize password. And run MySQL. you can check running MySQL from this url  `http://localhost/phpmyadmin/index.php`
+- clone this repository
+
+- make sure you install  MySQL and Xampp and memorize password. And run MySQL. you can check running MySQL from this url  `http://localhost/phpmyadmin/index.php`
 
 1. install or confirm Python 3.7 on your machine
 

@@ -23,6 +23,8 @@ rgb_data = database.get_rgb_by_id(id=2222)
 
 all_files = database.get_all_rgb_name()
 
+all_mask_names = ["Specular reflection","Artery","Vein","Stroma, ICG"]
+
 def path_to_indices(path):
     """From SVG path to numpy array of coordinates, each row being a (row, col) point
     """
@@ -184,9 +186,16 @@ tiff_layout = html.Div(children=[
                                 0, 
                                 len(mask_data[:, 0, 0])-1, 1,
                                 value=0,
+                                # marks={
+                                #     0: all_mask_names[0],
+                                #     1: all_mask_names[1],
+                                #     2: all_mask_names[2],
+                                #     3: all_mask_names[3],
+                                # },
                                 id='mask-slider',
-                                marks=None,
-                                tooltip={"placement": "bottom", "always_visible": True}
+                                # marks=None,
+                                tooltip={"placement": "bottom", "always_visible": False},
+                                # style={"color": "blue", "fontSize": 14,"writing-mode": "vertical-rl","text-orientation": "upright"}
                             ),
                             html.Hr(),
 

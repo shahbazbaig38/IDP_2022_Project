@@ -132,7 +132,6 @@ class Database():
             db.session.add(mask8)
             # db.session.commit()
             
-            
             tissue1 = TISSUE(id=5555,name="tissue1",mask=[mask1])
             tissue2 = TISSUE(id=5556,name="tissue2",mask=[mask2])
             tissue3 = TISSUE(id=5557,name="tissue3",mask=[mask3])
@@ -226,7 +225,13 @@ class Database():
         
         infh = self.open_hdf5(spim_by_id.hdf5_name)
         return np.array(infh["mask"])
-    
+
+    def get_all_mask_name_by_id(self,id:int):
+        masks = MASK.query.filter(MASK.id == id).all()
+        names = []
+        for item in masks:
+            names.append(item.mask_name)
+        return names
     
     # get spim data to return for frontend
     def get_mask_by_id(self,id:int):

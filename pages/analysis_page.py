@@ -108,13 +108,13 @@ analysis_layout = html.Div(children=[
                     , style=padding_border_style(20)),
                     
                     
-                    # html.Div(
-                    #     dcc.Graph(
-                    #         id="graph-kmeans", 
-                    #         # figure=None,
-                    #         style=FIGURE_STYLE
-                    #     )
-                    # , style=padding_border_style(10)),
+                    html.Div(
+                        dcc.Graph(
+                            id="graph-pca-contribution", 
+                            # figure=None,
+                            style=FIGURE_STYLE
+                        )
+                    , style=padding_border_style(20)),
                     
                     
                 ], # style=padding_border_style(10)
@@ -122,8 +122,6 @@ analysis_layout = html.Div(children=[
 
             dbc.Col(
                 [
-            
-                    
                     
                     dbc.Col([
                         html.Div([
@@ -141,7 +139,18 @@ analysis_layout = html.Div(children=[
 
                             html.Hr(),                 
                             
-                        ], style={"margin":30,'textAlign':'center'})
+                        ], style={"margin":30,'textAlign':'center'}),
+                        
+                        
+                    #     html.Div(
+                    #     dcc.Graph(
+                    #         id="graph-pca-contribution", 
+                    #         # figure=None,
+                    #         # style=FIGURE_STYLE
+                    #         style={'width': '40vh', 'height': '40vh'}
+                    #     )
+                    # , style=padding_border_style(20)),
+
                 
                     ],style=BORDER_STYLE),
                     
@@ -299,9 +308,43 @@ def figure_pca(rgb_name_dropdown,pca_slider):
 
 
 @app.callback(
+    Output("graph-pca-contribution", "figure"),
+    [Input('rgb-name-dropdown', 'value'),Input('pca-slider', 'value')])
+def figure_pca_contribution(rgb_name_dropdown,pca_slider):
+        
+    rgb_np_data, spim_np_data, mask_np_data = database.get_all_data_by_rgb_name(rgb_name_dropdown)
+
+    # PCA implementatio    
+    original_size = spim_np_data.shape[0]
+    
+    spim_np_data = spim_np_data.reshape(-1,spim_np_data.shape[-1])
+    # print(spim_np_data.shape)
+    n_components = spim_np_data.shape[-1]
+        
+    pca = PCA(n_components=n_components)
+    
+    pca_result = pca.fit_transform(spim_np_data)
+    print("finish PCA!")
+    
+    # print(pca_result.shape)
+    # pca_result = pca_result[:,np.newaxis,:]
+    # pca_result = pca_result.reshape(original_size,-1,n_components)
+    # print(pca_result.shape)
+    
+    fig = px.line([0] +list(np.cumsum(pca.explained_variance_ratio_)))
+
+    fig.update_layout(FIGURE_STYLE)
+    fig.update_layout(title={'text': '<b>Cumulative contribution rate</b>'}, title_x=0.5)
+
+    return fig
+    
+
+
+
+@app.callback(
     Output("graph-kmeans", "figure"),
     [Input('rgb-name-dropdown', 'value'),Input('cluster-slider', 'value')])
-def figure_pca(rgb_name_dropdown,cluster_slider):
+def k_means_and_pca(rgb_name_dropdown,cluster_slider):
 
     
     rgb_np_data, spim_np_data, mask_np_data = database.get_all_data_by_rgb_name(rgb_name_dropdown)
