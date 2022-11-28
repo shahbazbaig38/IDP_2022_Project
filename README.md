@@ -21,7 +21,7 @@ package managment system : pipenv
 
 3. run  `pipenv install` to create new environment based on Pipfile
 
-4. you need download normal & mask tiff file from OneDrive and locate them in `/data` folder under this project.
+4. Also you need download tiff image and locate in data folder under this project There is database folder. 
 
 5. run `pipenv shell` to activate env
 
