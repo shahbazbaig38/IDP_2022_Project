@@ -207,7 +207,7 @@ analysis_layout = html.Div(children=[
                                         style={'color': 'white','textAlign': 'center',}),
 
                             dcc.Slider(
-                                3, 5, 1,
+                                2, 20, 1,
                                 value=2,
                                 id='cluster-slider',
                                 marks=None,
@@ -324,7 +324,7 @@ def figure_pca_contribution(rgb_name_dropdown,pca_slider):
     pca = PCA(n_components=n_components)
     
     pca_result = pca.fit_transform(spim_np_data)
-    print("finish PCA!")
+    # print("finish PCA!")
     
     # print(pca_result.shape)
     # pca_result = pca_result[:,np.newaxis,:]
@@ -356,29 +356,31 @@ def k_means_and_pca(rgb_name_dropdown,cluster_slider):
     
     n_components = spim_np_data.shape[-1]
 
-    # print(spim_np_data.shape)
-    kmeans = KMeans(n_clusters=cluster_slider, random_state=0).fit(spim_np_data.T)
+    print("kmeans.shape before: ",spim_np_data.shape)
+    kmeans = KMeans(n_clusters=cluster_slider, random_state=0).fit(spim_np_data)
     print("finish KMeans!")
     
-    print("kmeans.shape : ",kmeans.labels_.shape)
+    print("kmeans.shape after : ",kmeans.labels_.shape)
     # print("df.shape : ",df.shape)
         
-    pca = PCA(n_components=3)
-    print("PCA calc...")
-    pca_result = pca.fit_transform(spim_np_data.T)
+    # pca = PCA(n_components=3)
+    # print("PCA calc...")
+    # pca_result = pca.fit_transform(spim_np_data.T)
 
-    print("pca_result.shape : ",pca_result.shape)
+    # print("pca_result.shape : ",pca_result.shape)
     
-    df = pd.DataFrame(pca_result, columns=["PC1","PC2","PC3"])
+    # df = pd.DataFrame(pca_result, columns=["PC1","PC2","PC3"])
     
-    df['cluster_group'] = kmeans.labels_
+    # df['cluster_group'] = kmeans.labels_
     
-    print("df.shape : ",df.shape)
+    # print("df.shape : ",df.shape)
     
-    df['band_name'] = [f"{i}" for i in range(df.shape[0])]
+    # df['band_name'] = [f"{i}" for i in range(df.shape[0])]
     
     
-    fig = px.scatter_3d(df,x='PC1', y='PC2', z='PC3', color='cluster_group', text="band_name")
+    # fig = px.scatter_3d(df,x='PC1', y='PC2', z='PC3', color='cluster_group', text="band_name")
+    
+    fig = px.imshow(kmeans.labels_.reshape(-1,1024))
 
     fig.update_layout(FIGURE_STYLE)
     fig.update_layout(title={'text': '<b>K-Means and PCA</b>'}, title_x=0.5)
