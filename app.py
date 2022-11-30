@@ -6,7 +6,7 @@ from dash import Dash, html, dcc, Input, Output
 import dash_bootstrap_components as dbc
 from pages.image_page import tiff_layout
 from pages.analysis_page import analysis_layout
-from pages.table_page import table_layout
+from pages.table_page import delete_modify_layout
 from pages.home_page import home_layout
 
 # app = Dash(__name__, external_stylesheets=[dbc.themes.BOOTSTRAP])
@@ -68,7 +68,7 @@ def render_page_content(pathname):
     if pathname == "/":
         return home_layout
     elif pathname == "/table":
-        return table_layout
+        return delete_modify_layout
     elif pathname == "/image":
         return tiff_layout
     elif pathname == "/analysis":
